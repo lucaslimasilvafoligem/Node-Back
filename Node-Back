@@ -1,0 +1,93 @@
+*Capt 2:
+
+Módulos são scripts reaproveitaveis. São divididos em:
+
+	1 - Internos: módulos que nós desenvolvemos
+	
+	2 - Core Modules: módulos que vem com o node.js
+	
+	3 - Externos: módulos que instalamos via npm
+	
+Core Modules: precisam ser importados
+
+	1 - Verifica a extensão do arquivo: require('path') -> path.extname
+	
+	2 - Ler argumentos: process.argv
+	
+	3 - Lendo entrada de dados: require('readline') nesse caso usamos question, exemplo em ~/NodeJs-Estudo/2-Fundamentos/9-Lendo-Input
+	
+Módulos externos: Podem ser instalados pelo npm, para tal usaremos o npm init, ele mapeará os modulos e os salvará em node_modules; podem ser instalados com npm install <nome>
+
+	1 - auxilia a ler comandos pela linha de comandos? require("minimist"): minimist(process.argv.slice(2)).
+	
+	2 - Chalk melhora a visualização e cores: require("chalk") -> console.log(chalk.gree('Parabéns')).
+
+	3 - Melhorando leitura de dados: require("inquirer") exemplo em ~/NodeJs-Estudo/2-Fundamentos/10-Abstracao-Input
+	
+Event Loop: Executa linha por linha de cima para baixo, isso nos ajuda a evitar problemas de concorrência ~/NodeJs-Estudo/2-Fundamentos/11-Event-Loop
+ 
+Event Emitter é um core module chamado events, precisa instanciar a classe EventEmitterque vem deste módulo ~/NodeJs-Estudo/2-Fundamentos/12-Event-Emitter
+
+Sincrono e Assíncrono: São as duas opções de executar metódos conhecidos como sync e async
+	
+	1 - forma sincrona: o código espera ser totalmente executado para prosseguir
+	
+	2 - forma assíncrona: o código continue progredindo e em um ponto futuro obtém a resposta da execução assóncrona ~/NodeJs-Estudo/2-Fundamentos/13-Asscinc-Sinc
+	
+	3 - require('fs') -> fs.writeFileSync('arquivo.txt', 'oi')
+	
+	
+Erros no node: duas formas de evidenciar erros no node
+
+	1 - throw: uma forma de encerrar o programa, gerando um novo erro
+	
+	2 - try catch: uma forma de evidenciar algo que deu errado em um bloco de código e exibir a mensagem de erro ~/NodeJs-Estudo/2-Fundamentos/14-Erros
+	
+*Capt 3:
+
+	1 - Sobre os Core Modules:
+	
+		1 - http: módulo para criar servidores HTTP
+		
+		2 - path: extrair informações de paths (caminhos de arquivod)
+		
+		3 - fs: file system, leitura e escrita
+		
+		4 - url: módulo para trabalhar com URLs
+		
+	2 - Url: O módulo url serve para swcompor uma URL que passamos oara o metódo parse. Podemos resgatar host, path, search, euqry, etc; apartir das informações podemos alterar a lógica do nosso código.
+	
+	3 - Podemos trabalhar com estes módulos juntos e ter um resultado interessante. Com o http criamos o nosso server e alteramos a resposta baseada na URL acessada. Com a url passamos os parâmetros que vem pela query string, para alterar a lógica do http.
+	
+	4 - Módulo fs: o módulo fs (file system) serve para trabalhar com arquivos e diretórios; também é um core Module, podemos ler e escrever em arquivos, por exemplo: logs do sistema
+	
+	5- Escrevendo em arquivos fs writeFile: podem criar e escrever em arquivos, utilizando o método writeFile. Esta escrita pode estar associada a um conjunto de operações, como o envio de informações de um usuário, por exemplo.
+	
+	6 - Atualizando em arquivos fs appendFile atualiza o arquivo
+	
+	7 - Removendo o arquivo fs unlink precisa passar o arquivo vomo parametro, pode usar o callback
+	
+	8 - renomeando um arquivo com fs rename, pode usar o callback
+	
+	9 - Rotas com node, podemos criar um sistema de roteamento. As rotas são basicamente as rotas que acessamos 
+	
+	10 - Dtalhes de arquivos, podemos saber mais sobre os arquivos que temos acesso, utilizando o fs stat; ele indorma o tamanho, data de criação, se é arquivo ou diretório e etc
+	
+	11 - Com o path conseguimos extrair diversas informações sobre caminhos e arquivos. Também é um code module
+	
+	12 - Com a função resolve é possível saber qual o path do arquivo alvo; e coma função join é possível formar um path dinâmico, com variáveis e valores fixos
+	
+	13 - Trabalhando com diretórios, método exists e mkdir
+	
+	14 - Módulo os, podemos extrair informaçõese do sistema ooperacional, também é um core módule
+	
+* Capt 4:
+	
+	1 - Npm é o principal gerenciador de pacotes do Node.js; Pode instalar, configurar projetos e rodar scripts. A criação gera sempre um package
+	
+	2 - Para iniciar usamos o npm init
+	
+	3 - Criação rápida: npm init -y
+	
+	4 - Instalando pacotes: npm install <nome>; ao fazer isso criamos a pasta node_modules, sempre que rodamos npm install a pasta node_modules é recriadaS
+	
