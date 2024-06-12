@@ -1,0 +1,180 @@
+import express from 'express';
+import { engine } from 'express-handlebars';
+import pool from './db/index.mjs'; // Importa a pool de conexões
+
+const app = express();
+const port = 3000;
+
+app.engine('handlebars', engine());
+app.set('view engine', 'handlebars');
+app.set('views', './views');
+
+app.use(express.static('public'));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+// Função privada para criar a tabela book se não existir
+const _createBookTable = () => {
+    const sql = `
+        CREATE TABLE IF NOT EXISTS book (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            title VARCHAR(250) NOT NULL,
+            author VARCHAR(255) NOT NULL,
+            pages INT NOT NULL,
+            launch_date DATE
+        )
+    `;
+
+    pool.query(sql, (err, result) => {
+        if (err) {
+            console.error('Erro ao criar a tabela:', err);
+            return;
+        }
+
+        console.log('Tabela book criada com sucesso');
+    });
+};
+
+// Criar a tabela ao iniciar o servidor
+_createBookTable();
+
+app.get('/', (req, res) => {
+    res.render('home');
+});
+
+app.get('/insertbook', (req, res) => {
+    res.render('insertbook');
+});
+
+app.post('/books/insertbook', (req, res) => {
+    const { title, author, pages, launch_date } = req.body;
+
+    if (!title || !author || !pages || !launch_date) {
+        return res.status(400).send('Todos os campos são obrigatórios.');
+    }
+
+    const sql = `INSERT INTO book (title, author, pages, launch_date) VALUES (?, ?, ?, ?)`;
+    const data = [title, author, pages, launch_date];
+
+    pool.query(sql, data, (err, result) => {
+        if (err) {
+            console.error('Erro ao inserir o livro:', err);
+            res.status(500).send('Erro ao inserir o livro.');
+            return;
+        }
+
+        console.log('Livro inserido com sucesso');
+        res.redirect('/');
+    });
+});
+
+app.get('/books', (req, res) => {
+    const sql = "SELECT * FROM book";
+
+    pool.query(sql, function (err, data) {
+        if (err) {
+            console.log(err);
+            return;
+        }
+
+        const books = data.map(book => ({
+            ...book,
+            launch_date: new Date(book.launch_date).toLocaleDateString('pt-BR', { year: 'numeric', month: '2-digit', day: '2-digit' })
+        }));
+
+        console.log(books);
+
+        res.render('books', { books });
+    });
+});
+
+app.get('/book/:id', (req, res) => {
+    const id = req.params.id;
+    const sql = `SELECT * FROM book WHERE id = ?`;
+
+    pool.query(sql, [id], (err, data) => {
+        if (err) {
+            console.log(err);
+            return;
+        }
+
+        if (data.length === 0) {
+            res.status(404).send('Livro não encontrado');
+            return;
+        }
+
+        const book = {
+            ...data[0],
+            launch_date: new Date(data[0].launch_date).toISOString().split('T')[0] // Formatar a data para yyyy-mm-dd
+        };
+
+        console.log(book);
+
+        res.render('book', { book });
+    });
+});
+
+app.get('/book/edit/:id', (req, res) => {
+    const id = req.params.id;
+    const sql = `SELECT * FROM book WHERE id = ?`;
+
+    pool.query(sql, [id], (err, data) => {
+        if (err) {
+            console.log(err);
+            return;
+        }
+
+        if (data.length === 0) {
+            res.status(404).send('Livro não encontrado');
+            return;
+        }
+
+        const book = {
+            ...data[0],
+            launch_date: new Date(data[0].launch_date).toISOString().split('T')[0] // Formatar a data para yyyy-mm-dd
+        };
+
+        console.log(book);
+
+        res.render('editbook', { book });
+    });
+});
+
+app.post('/book/updatebook', (req, res) => {
+    const { id, title, author, pages, launch_date } = req.body;
+
+    const sql = `UPDATE book 
+                SET title = ?, author = ?, pages = ?, launch_date = ? 
+                WHERE id = ?`;
+    const data = [title, author, pages, launch_date, id];
+
+    pool.query(sql, data, (err) => {
+        if (err) {
+            console.log(err);
+            return;
+        }
+
+        res.redirect('/books');
+    });
+});
+
+app.post('/book/remove/:id', (req, res) => {
+    const id = req.params.id;
+
+    const sql = `DELETE FROM book WHERE id = ?`;
+
+
+    pool.query(sql, [id], (err) => {
+        if (err) {
+            console.log(err);
+            return;
+        }
+
+        res.redirect('/books');
+    });
+});
+
+// Inicializar o servidor
+app.listen(port, () => {
+    console.log(`App rodando na porta ${port}`);
+});

@@ -1,0 +1,10 @@
+<h1>Olá Handlebars</h1>
+<p>O nome do usuário é {{user.name}} {{user.surname}}</p>
+
+<p>Palavra: {{palavra}}</p>
+
+{{#if auth}}
+<p>
+    Você está autenticado, <a href="/dashboard">Clique aqui</a> para voltar ao home
+</p>
+{{/if}}
