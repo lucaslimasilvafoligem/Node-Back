@@ -168,3 +168,36 @@ Erros no node: duas formas de evidenciar erros no node
 	12 - Connection Pool é um recurso para otimizae as conexões, criando m cache e permitindo sua reutilização. O driver mysql tem este recurso desenvolvido, podemos aplicá-lo, este recurso também controla as conexões abertas, fechando assim que se tornam inativas.
 
 	13 - Preparando a query, uma forma de nos defendermos de SQL Injection, podemos utilizar interrogações em vez dos valores e substituir através de um segundo passo, para a query ser executada corretamente. Esta técnica deve ser utilizada em qualquer programa que vá para a produção.
+
+*Capt 6:
+
+	1 - Object Relational Mapper (ORM). Abstrai a complexidade das queries, para trabalharmos com métodos; nos concentramos na regra de negócios e não nos comandos SQL, uma ORM muito utilizada para Node.mjs é a Sequelize em alguns casos um ORM pode trazer prejuízos de performace; a query pura executa mais rapidamente do que a ORM
+
+	2 - Uma ORM para Node.js, ela é baseada em promises (then, catch); tem intehração para vários bancos relacionais, como o MySQL. Precisamos sempre criar um Model que é reflexo da nossa tabela em uma classe. Precisamos instalar o pacote, já que é um módulo externo.
+
+	3 - Para instalar o Sequelize utilizamos o pacote Sequelize e para conectar precisamos passar os mesmos dados que no outro pacote: banco, usuáio e senha. Instanciando a classe Sequelize; é possível checar a conexão com o método authenticate.
+
+	4 - Para criar um Model temos que instanciar uma classe que representará uma tabela; um Model User cria uma nova tabela chamada users, colocamos os campos e os tipos dele como propriedades do model, futuramente ele será utilizado para operações entre aplicações e banco. O método sunc faz a criação das tabelas baseadas nos models.
+
+	5 - Para inserir um dado vamos precisar do MOdel que criamos, ou seja, importar ele no arquivo de execução do comando; o método a ser utilizado é o create, ele leva como parâmetro todos os campos, e insere registro na tabela.
+
+	6 - Para ler os dados de uma tabela vamos utilizar o método fetchAll que também requer o model, no nosso caso o User, os dados vem em um objeto especial, para transformar em um array de objetos temos que inserir um parâmetro que é o raw como true.
+
+	7 - Para filtrar dados como o Sequelize utilizando o WHERE, precisamos inserir um novo parâmetro que serã o WHERE, um objeto onde colocamos a propriedades e valores que queremos filtrar e para retornar um resuktado podemos utilizar o método findOne.
+
+	8 - Para remover itens utilizando o método destroy a função vai ficar bem parecida com a de resgatar um usuário, só que será um POST, e que efetua a remoção, depois redirecionamos. Precisamos também criar um formulário no front-end
+
+	9 - O primeiro passo para a edição é resgatar os dados do item, com isso podemos preencher o formulário, para depois fazer o UPDATE, Vamos utilizar métofo findOne, igual a rota de visualização, e fazer o preenchimento do form na nossa nova view.
+
+	10 - Para realizar a query de update utilizar o método update do sequelize; nele passamos objeto atualizado do item e também filtramos por meio do atributo where, que item vamos atualizar.
+
+	11 - Podemos forçar a reconstrução das tabelas no método sync, onde são sincronizados os models e as tabelas; vamos colocar um atributo: force como true; exemplo sync ({ force: true }) note que os dados são perdidos neste processo
+
+	12 - Em bancos relacionais podemos criar relacionamentos entre as tabelas, para concretizar isso no sequelize vamos precisar de dois Modelos, ou seja precisamos criar mai um no nosso projeto; depois precisamos inserir um método de relacionamento em algum dos models que vai criar a relação; após o sync uma coluna que faz a relação entre as tabelas será criada que representa a FOREIGN KEY.
+
+	13 - Para adicionar o dado relacionado o fluxo é quase o mesmo; o grande detalhe é que precisamos passar o id do item que o relaciona, podemos fazer com um input hidden dentro do form que contém os dados do novo item e enviando para uma nova rota no nosso sistema.
+
+	14 - Precisamos definir as relações entre os dois models, podemos fazer isso no model de endereços; depois basta utilizar o operador include com o nome do model, onde estamos resgatando o dado; isso faz com que os registros associados também venham na seleção como há dados relacionadosm precisamos remover raw.
+
+	15 - Para remover itens relacionados utilizaremos o mesmo processo de remoção de itens, criaremos um formulário que envia o id do item e uns rota para receber estas informações e executa a remoção utilizando o destroy.
+

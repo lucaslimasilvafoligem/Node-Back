@@ -1,0 +1,45 @@
+<h1>Editando: {{user.name}}</h1>
+<form action="/users/update" method="POST" class="form">
+    <input type="hidden" name="id" value="{{user.id}}">
+    <div class="form-control">
+        <label for="name">NOME:</label>
+        <input type="text" name="name" placeholder="Digite o nome do usuário" value="{{user.name}}" required>
+    </div>
+    <div class="form-control">
+        <label for="occupation">OCUPAÇÃO:</label>
+        <input type="text" name="occupation" placeholder="Digite a profissão" value="{{user.occupation}}" required>
+    </div>
+    <div class="form-control form-checkbox">
+        {{#if user.newsletter}}
+            <input type="checkbox" name="newsletter" checked>
+        {{else}}
+            <input type="checkbox" name="newsletter">
+        {{/if}}
+        <label for="newsletter">Enviar promoções?</label>
+    </div>
+    <input type="submit" value="Editar">
+</form>
+<div class="address-container">
+    <h2>Endereços:</h2>
+    <form action="/address/create" method="POST">
+        <input type="hidden" name="UserId" value="{{user.id}}">
+        <div class="form-control">
+            <label for="street">Rua:</label>
+            <input type="text" name="street" placeholder="Digite a rua: ">
+        </div>
+        <div class="form-control">
+            <label for="numbe">Número:</label>
+            <input type="text" name="numbe" placeholder="Digíte o número da residência: ">
+        </div>
+        <div class="form-control">
+            <label for="city">Cidade:</label>
+            <input type="text" name="city" placeholder="Digite a cidade:">
+        </div>
+        <input type="submit" value="Incluir endereço">
+    </form>
+    <div class="address-list">
+        {{#each user.Addresses}}
+            <p>#{{this.id}} - {{this.street}} - {{this.numbe}} - {{this.city}}</p>
+        {{/each}}
+    </div>
+</div>
