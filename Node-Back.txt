@@ -201,3 +201,47 @@ Erros no node: duas formas de evidenciar erros no node
 
 	15 - Para remover itens relacionados utilizaremos o mesmo processo de remoção de itens, criaremos um formulário que envia o id do item e uns rota para receber estas informações e executa a remoção utilizando o destroy.
 
+
+*Capt 7:
+
+	1 - Um acrônimo de Model View Controllwe é um padrão de arquitetura de software, que pode deixar nossas aplicações mais organizada. A aplicaçã é dividida em camadas, cada uma com sua responsabilidade; Teremos uma nova estrutura de arquivos e pastas e a aplicação obedece um novo fluxo, que se repete para todas as ações; aplicações em MVC tendem a ter uma manuteção/evolução mais fácil.
+
+	2 - É uma camada onde vamos interagidr com o banco de dados. normalmente interage com os arquivos do Controller responsável por resgatar, atualizar, remover e criar dados; é comum que cada tabela seja um Model, assim como fazemos com o setup do Sequelize, os models são quem controlam a arquitetura do sistema é fácil entender a regra de negócios analisando eles.
+
+	3 - É onde apresentamos os dados que estão no banco; geralmente a view interage com o com o controççer que é o meio de campo e também nas views temos a interação com o usuário, como formulários para inserir dados no sistema, é correto haver lógica/regra de negócios na view, ou o mínimo possível, normalmente a exibição é feita através do html
+
+	4 - Camada de controle, é onde temos a interação entre model e view, podemos definir qual view será impressa, processar dados que foram enviados para o banco ou para a view, os controllers ter]ao um código parecido com os das rotas que foram criadas anteriormente
+
+	5 - Nossa estrutura será composta por: 
+
+		1 - controllers: pastas que ficam os arquivos de controller
+		2 - models: pasta que ficam os arquivos de model
+		3 - views: pasta que ficam os arquivos de view
+		4 - routes: pasta que ficam os arquivos de rota
+		5 -  index.mjs: arquivo que inicializa a aplicação
+	
+	6 - Criando Model vamos criar nosso model dentro da pasta models; precisamos também sincronizar para criar a tabela, então vamos importar no index.mjs. Este é o primeiro passo do nsso MVC, declarando uma entidade que faz parte da regra de negócios.
+
+	7 - Criando o controller, vamos criar o nosso contorller, que ficará dentro da pasta controllers. Será uma classe que contém as funções com a lógica de cada rota; algumas só encaminharão as views, outras vão processar dados e passar para models; por isso vamos importar o models que o controller utiliza.
+
+	8 - Criando Rotas, criaremos as rotas com ajuda do router onde cada arquivo responsável por um controller e em cada rota vamos utilizar uma das funções do controller; por isso vamos importar o controller reponsável pela lógica das rotas o router precisa ser importado no index da aplicação
+
+	9 - Vamos aproveitar este início de estrutura e criar um projeto completo em MVC, primeiramente vamos dar alguns estilos iniciais e depois voltamos as outras partes da aplicação para avançar no nosso projeto
+
+	10 - Salvando dados agora é a hora interagir com o banco, ou seja, criar um vínculo entre um controller e um Model; Criaremos uma nova função para tratar os dados e enviaremos para o banco como o sequelize tem alguns métodos prontos, o trabalho do nosso model fica mais simples
+
+	11 - Resgatando dados, para resgatar dados o processo é semelhante, vamos criar uma rota get que acessa uma função contorller, nesta função teremos os dados através do Model e assim podemos imprimir no HTML
+
+	12 - Removendo dado, para remover um dado vamos utilizar o método destroy do Sequelize; condicionado por um POST que vai até a rota determinada pelo router ativando direcionamos para home novamente.
+
+	13 - Editando dado, O primeiro passo da edição nós sabemos: resgatar o dadi e colocar no formulário em uma nova view. Para isso vamos precisar de uma frunção no controller, pagando os dados via Model e então criar a rota que corresponde a um id de uma Task, neste caso; preenchendo os valores dos inputs com o que foi resgatado do banco.
+
+	14 - Enviando dados para editar, agora vamos criar uma nova função no controller que processa o que veio do form, esta mesma função chama o Model e executa a função de update, retornando assim o usuáio para onde ele possa ver a task atualizada
+
+	15 - Completando tarefas, realizaremos uma ação do nosso sistema para complemetar ou descompletar as tarefas; basicamente vamos criar uma rota de upadate que só atualiza o atributo done de task, precisamos de um form na lista para fazer o envio e também criar a rota.
+	 
+*Capt8:
+
+	1 - npm install bcryptjs connect-flash cookie-parser cookie-session express express-flash express-session mysql2 sequelize nodemon session-file-store express-handlebars
+
+	2 - 
